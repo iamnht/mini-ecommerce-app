@@ -19,13 +19,17 @@ import { AppColors } from "../../assets/colors";
 import CustomDialogTwoButton from "../../components/CustomDialogTwoButton";
 import ProductDetailToolBar from "./ProductDetailToolBar";
 import FullWidthButton from "../../components/FullWidthButton";
+import { useDispatch } from "react-redux";
+import { addItem } from "../../redux/slices/cartItemSlice";
 
 const ProductDetailScreen = ({ route, navigation }) => {
   const { product } = route.params;
   const [dialogVisible, setDialogVisible] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (item) => {
     setDialogVisible(true);
+    dispatch(addItem(item))
   };
 
   return (
@@ -65,7 +69,7 @@ const ProductDetailScreen = ({ route, navigation }) => {
       </ScrollView>
 
       <SafeAreaBottom edges={["bottom"]} style={styles.buttonContainer}>
-        <FullWidthButton buttonText={"Add to Cart"} tapAction={handleAddToCart} />
+        <FullWidthButton buttonText={"Add to Cart"} tapAction={() => handleAddToCart(product)} />
       </SafeAreaBottom>
 
       <CustomDialogTwoButton

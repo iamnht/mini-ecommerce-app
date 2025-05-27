@@ -1,12 +1,13 @@
+import Feather from "@expo/vector-icons/Feather";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Feather from '@expo/vector-icons/Feather';
+import { useSelector } from "react-redux";
 
-
-const HomeHeader = ({navigation}) => {
+const HomeHeader = ({ navigation }) => {
+  const cartItemCount = useSelector((state) => state.cartItems.cartItemCount);
 
   const handleNavigateCart = () => {
-    navigation.navigate('Cart')
-  }
+    navigation.navigate("Cart");
+  };
 
   return (
     <View style={styles.headerContainer}>
@@ -17,17 +18,21 @@ const HomeHeader = ({navigation}) => {
         </View>
       </TouchableOpacity>
 
-      {/* Location and Search */}
+      {/* Hardcode: Location and Search */}
       <View style={styles.titleWrapper}>
         <Text style={styles.label}>Delivery address</Text>
         <Text style={styles.address}>92 High Street, London</Text>
       </View>
 
-      {/* Notification */}
+      {/* Cart */}
       <TouchableOpacity style={styles.iconWrapper} onPress={handleNavigateCart}>
         <View style={styles.notiButtonWrapper}>
           <Feather name="shopping-cart" size={22} color="#000" />
-          <View style={styles.dot} />
+          {cartItemCount > 0 && (
+            <View style={styles.cartBadge}>
+              <Text style={styles.cartBadgeText}>{cartItemCount}</Text>
+            </View>
+          )}
         </View>
       </TouchableOpacity>
     </View>
@@ -63,18 +68,22 @@ const styles = StyleSheet.create({
     borderRadius: 80,
     padding: 8,
   },
-  dot: {
+  cartBadge: {
     position: "absolute",
-    top: 4,
-    right: 4,
-    width: 8,
-    height: 8,
-    backgroundColor: "#35D0BA",
-    borderRadius: 4,
+    top: -4,
+    right: -4,
+    backgroundColor: "red",
+    borderRadius: 10,
+    minWidth: 18,
+    height: 18,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 4,
   },
-  icon: {
-    width: 20,
-    height: 20,
+  cartBadgeText: {
+    color: "white",
+    fontSize: 10,
+    fontWeight: "bold",
   },
   titleWrapper: {
     alignItems: "center",

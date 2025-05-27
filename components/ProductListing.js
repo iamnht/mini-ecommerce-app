@@ -10,17 +10,9 @@ import ProductItem from "./ProductItem";
 const ProductListing = ({ products }) => {
   const [cart, setCart] = useState([]);
 
-  const toggleCart = (id) => {
-    setCart((prev) =>
-      prev.includes(id) ? prev.filter((cid) => cid !== id) : [...prev, id]
-    );
-  };
-
   const renderItem = ({ item }) => (
     <ProductItem
       item={item}
-      isInCart={cart.includes(item.id)}
-      onToggleCart={toggleCart}
     />
   );
 

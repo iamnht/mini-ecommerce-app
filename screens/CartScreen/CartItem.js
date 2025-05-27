@@ -31,7 +31,7 @@ const CartItem = ({ item, onToggleCheck, onIncrease, onDecrease }) => {
       </TouchableOpacity>
       <Image source={{ uri: item.image }} style={styles.image} />
       <View style={styles.details}>
-        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.name}>{item.title}</Text>
 
         <View style={styles.secondRowWrapper}>
           <Text style={styles.price}>${item.price.toFixed(2)}</Text>

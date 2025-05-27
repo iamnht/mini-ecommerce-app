@@ -7,6 +7,7 @@ import CartScreen from "./screens/CartScreen/CartScreen";
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import ProductDetailScreen from "./screens/ItemDetailScreen/ProductDetailScreen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ function App() {
             />
             <Stack.Screen name="Cart" component={CartScreen} />
           </Stack.Navigator>
+          <Toast />
         </NavigationContainer>
       </Provider>
     </SafeAreaProvider>

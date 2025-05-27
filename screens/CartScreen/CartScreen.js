@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native"; // Added Text import
+import { useEffect, useMemo, useState } from "react";
+import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
 import {
   SafeAreaView as SafeAreaBottom,
   SafeAreaView,
@@ -7,31 +7,23 @@ import {
 import { AppColors } from "../../assets/colors";
 import CustomToolBar from "../../components/CustomToolBar";
 import FullWidthButton from "../../components/FullWidthButton";
+import { useCart } from "../../hooks/useCartItems";
 import CartItem from "./CartItem";
 
-const initialCartItems = [
-  {
-    id: "1",
-    name: "Nitendo Switch 2",
-    price: 299.0,
-    quantity: 1,
-    image:
-      "https://www.droidshop.vn/wp-content/uploads/2023/12/May-choi-game-Nintendo-Switch-V2-Mario-Kart-8-Deluxe-Bundle-Nintendo-Switch-Online-Membership-3.jpg",
-    checked: true,
-  },
-  {
-    id: "2",
-    name: "Playstation 5",
-    price: 499.0,
-    quantity: 2,
-    image:
-      "https://hanoicomputercdn.com/media/product/86482_may_choi_game_sony_playstation_5_ps5_pro_1.jpg",
-    checked: true,
-  },
-];
-
 const CartScreen = ({ navigation }) => {
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  const { cartItems, cartItemCount } = useCart();
+  const [addedItems, setCartItems] = useState(cartItems);
+
+  useEffect(() => {
+    if (Array.isArray(cartItems)) {
+      const initialized = cartItems.map((item) => ({
+        ...item,
+        quantity: item.quantity ?? 1,
+        checked: item.checked ?? true,
+      }));
+      setCartItems(initialized);
+    }
+  }, [cartItems]);
 
   const handleNavigateToHome = () => {
     navigation.navigate("Home");
@@ -63,23 +55,21 @@ const CartScreen = ({ navigation }) => {
     );
   };
 
-  const total = useMemo(() => {
-    return cartItems.reduce((sum, item) => {
-      if (item.checked) {
-        return sum + item.quantity * item.price;
-      }
-      return sum;
-    }, 0);
-  }, [cartItems]);
+  const totalPrice = useMemo(() => {
+    return addedItems
+      .filter((item) => item.checked)
+      .reduce((acc, item) => acc + (item.price || 0) * (item.quantity || 1), 0)
+      .toFixed(2);
+  }, [addedItems]);
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <CustomToolBar titleScreen={"Cart"} isShowRightBtn={false} />
+      <CustomToolBar titleScreen="Cart" isShowRightBtn={false} />
 
       <View style={styles.container}>
         <FlatList
-          data={cartItems}
-          keyExtractor={(item) => item.id}
+          data={addedItems}
+          keyExtractor={(item) => item.id?.toString()}
           renderItem={({ item }) => (
             <CartItem
               item={item}
@@ -95,10 +85,10 @@ const CartScreen = ({ navigation }) => {
       <SafeAreaBottom edges={["bottom"]} style={styles.buttonContainer}>
         <View style={styles.totalContainer}>
           <Text style={styles.totalLabel}>Total Price:</Text>
-          <Text style={styles.totalAmount}>${total.toFixed(2)}</Text>
+          <Text style={styles.totalAmount}>${totalPrice}</Text>
         </View>
         <FullWidthButton
-          buttonText={"Back to Home"}
+          buttonText="Back to Home"
           tapAction={handleNavigateToHome}
         />
       </SafeAreaBottom>
@@ -108,7 +98,8 @@ const CartScreen = ({ navigation }) => {
 
 export default CartScreen;
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
+
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -116,6 +107,7 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: AppColors.background,
+    flex: 1,
   },
   listWrapper: {
     backgroundColor: "white",
@@ -126,8 +118,6 @@ const styles = StyleSheet.create({
     paddingTop: 12,
   },
   buttonContainer: {
-    position: "absolute",
-    bottom: 0,
     width: width,
     padding: 16,
     backgroundColor: "#fff",

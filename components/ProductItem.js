@@ -1,4 +1,3 @@
-// src/components/ProductItem.js
 import {
   View,
   Text,
@@ -8,13 +7,27 @@ import {
   Dimensions,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import { AppColors } from "../assets/colors";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { addItem } from "../redux/slices/cartItemSlice";
+import Toast from "react-native-toast-message";
 
 const { width } = Dimensions.get("window");
 const ITEM_WIDTH = (width - 48) / 2;
 
-const ProductItem = ({ item, isInCart, onToggleCart, isFavorite, onToggleFavorite }) => {
+const ProductItem = ({ item }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const handleAddCartItem = (addedItem) => {
+    Toast.show({
+      type: "success",
+      text1: "Added to Cart",
+      text2: "Item successfully added to your cart",
+    });
+    dispatch(addItem(addedItem));
+  };
 
   return (
     <TouchableOpacity
@@ -22,30 +35,14 @@ const ProductItem = ({ item, isInCart, onToggleCart, isFavorite, onToggleFavorit
       onPress={() => navigation.navigate("ProductDetail", { product: item })}
       activeOpacity={0.9}
     >
-      {/* Favorite button (top right) */}
-      <TouchableOpacity
-        style={styles.favoriteIcon}
-        onPress={() => onToggleFavorite(item.id)}
-      >
-        <Icon
-          name={isFavorite ? "heart" : "heart-outline"}
-          size={20}
-          color={isFavorite ? "red" : "gray"}
-        />
-      </TouchableOpacity>
-
       <Image source={{ uri: item.image }} style={styles.image} />
       <Text style={styles.name} numberOfLines={1}>
         {item.title}
       </Text>
       <View style={styles.bottomRow}>
         <Text style={styles.price}>${item.price}</Text>
-        <TouchableOpacity onPress={() => onToggleCart(item.id)}>
-          <Icon
-            name={isInCart ? "cart" : "cart-outline"}
-            size={20}
-            color={isInCart ? "#00C853" : "gray"}
-          />
+        <TouchableOpacity onPress={() => handleAddCartItem(item)}>
+          <Icon name="cart" size={20} color="black" />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
