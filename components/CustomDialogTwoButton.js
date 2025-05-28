@@ -1,11 +1,25 @@
-import React from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet } from 'react-native';
-import { AppColors } from '../assets/colors';
+import React from "react";
+import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
+import { AppColors } from "../assets/colors";
+import useNavigate from "../hooks/useNavigate";
 
-const CustomDialogTwoButton = ({ visible, title, message, primaryButtonText, secondaryButtonText, onDismiss, navigation }) => {
-  const handleViewCart = () => {
+const CustomDialogTwoButton = ({
+  visible,
+  title,
+  message,
+  primaryButtonText,
+  secondaryButtonText,
+  onDismiss,
+  screenType,
+}) => {
+
+  const navigateHandler = useNavigate(screenType, {})
+
+  const handleTapAction = () => {
     onDismiss();
-    navigation.navigate('Cart');
+    if(screenType){
+      navigateHandler();
+    }
   };
   return (
     <Modal
@@ -18,7 +32,10 @@ const CustomDialogTwoButton = ({ visible, title, message, primaryButtonText, sec
         <View style={styles.dialog}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.message}>{message}</Text>
-             <TouchableOpacity style={styles.primaryButton} onPress={handleViewCart}>
+          <TouchableOpacity
+            style={styles.primaryButton}
+            onPress={handleTapAction}
+          >
             <Text style={styles.buttonText}>{primaryButtonText}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.secondaryButton} onPress={onDismiss}>
@@ -33,49 +50,49 @@ const CustomDialogTwoButton = ({ visible, title, message, primaryButtonText, sec
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   dialog: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
-    width: '80%',
-    alignItems: 'center',
+    width: "80%",
+    alignItems: "center",
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
-    textAlign: 'center',
+    textAlign: "center",
   },
   message: {
     fontSize: 16,
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   primaryButton: {
     backgroundColor: AppColors.neonGreen,
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
     marginBottom: 10,
   },
   secondaryButton: {
-    backgroundColor: '#ccc',
+    backgroundColor: "#ccc",
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
   },
   buttonText: {
-    color: 'black',
+    color: "black",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });
 

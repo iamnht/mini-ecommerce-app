@@ -79,7 +79,7 @@ const ProductDetailScreen = ({ route, navigation }) => {
         primaryButtonText="View Your Cart"
         secondaryButtonText="OK"
         onDismiss={() => setDialogVisible(false)}
-        navigation={navigation}
+        screenType="Cart"
       />
     </SafeAreaView>
   );

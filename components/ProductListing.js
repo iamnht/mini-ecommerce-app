@@ -1,15 +1,12 @@
-import React, { useState } from "react";
 import {
-  View,
-  Text,
   FlatList,
   StyleSheet,
+  Text,
+  View,
 } from "react-native";
 import ProductItem from "./ProductItem";
 
 const ProductListing = ({ products }) => {
-  const [cart, setCart] = useState([]);
-
   const renderItem = ({ item }) => (
     <ProductItem
       item={item}

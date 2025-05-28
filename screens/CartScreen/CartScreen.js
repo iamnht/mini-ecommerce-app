@@ -9,10 +9,12 @@ import CustomToolBar from "../../components/CustomToolBar";
 import FullWidthButton from "../../components/FullWidthButton";
 import { useCart } from "../../hooks/useCartItems";
 import CartItem from "./CartItem";
+import CustomDialogTwoButton from "../../components/CustomDialogTwoButton";
 
 const CartScreen = ({ navigation }) => {
   const { cartItems, cartItemCount } = useCart();
   const [addedItems, setCartItems] = useState(cartItems);
+  const [dialogVisible, setDialogVisible] = useState(false);
 
   useEffect(() => {
     if (Array.isArray(cartItems)) {
@@ -26,7 +28,7 @@ const CartScreen = ({ navigation }) => {
   }, [cartItems]);
 
   const handleNavigateToHome = () => {
-    navigation.navigate("Home");
+    setDialogVisible(true);
   };
 
   const toggleCheck = (id) => {
@@ -88,10 +90,22 @@ const CartScreen = ({ navigation }) => {
           <Text style={styles.totalAmount}>${totalPrice}</Text>
         </View>
         <FullWidthButton
-          buttonText="Back to Home"
+          buttonText="Check Out"
           tapAction={handleNavigateToHome}
         />
       </SafeAreaBottom>
+
+      <CustomDialogTwoButton
+        visible={dialogVisible}
+        title="Coming Soon!"
+        message={
+          "This feature is still in development. Stay tuned for exciting updates!"
+        }
+        primaryButtonText="Back to Home"
+        secondaryButtonText="Dismiss"
+        onDismiss={() => setDialogVisible(false)}
+        screenType="Home"
+      />
     </SafeAreaView>
   );
 };
