@@ -25,7 +25,21 @@ A simple mini e-commerce mobile application built with React Native + Expo, show
 	3.	Press “Add to Cart” to add the item or press the cart-button of in the product list<br />
 	4.	Go to the Cart screen to see all added items<br />
 <br /><br />
-**6. Project Structure**<br />
+**6. Tech Stack & Tools Used**
+<br />
+This project is built using the following technologies:<br />
+	•	JavaScript – Core language for building the app logic<br />
+	•	React Native + Expo – Cross-platform framework for mobile app development<br />
+	•	Stylesheet (React Native built-in) – Used for component styling<br />
+	•	Redux – Global state management for features like cart and product list<br />
+	•	React Navigation – For managing screen navigation<br />
+	•	Expo CLI – Simplifies development and testing on iOS & Android<br />
+	•	@expo/vector-icons – Icon library used throughout the app<br />
+	•	Axios / Fetch – For making API requests<br />
+	•	React Native Safe Area Context – To handle safe areas on devices with notches<br />
+	•	Mock API Service – Simulates product fetching<br />
+ <br /><br />
+**7. Project Structure**<br />
 mini-ecommerce-app/<br />
 ├── assets/                # Images, icons, fonts, colors<br />
 ├── components/            # Reusable UI components (e.g., ProductItem, Header)<br />
@@ -35,7 +49,7 @@ mini-ecommerce-app/<br />
 ├── App.js                 # App entry point with navigation<br />
 ├── app.json               # Expo configuration<br />
 <br /><br />
-**7.App Demo**<br />
+**8.App Demo**<br />
 Demo video includes:<br />
 	•	Installing dependencies<br />
 	•	Running the app on Expo (Android and iOS)<br />
@@ -44,7 +58,7 @@ Demo video includes:<br />
  <br />
 Link to Screen recordings: https://drive.google.com/drive/folders/1M2rhvG3j8yktTvcPuCyFv3YADawTetag?usp=drive_link
 <br /><br />
-**8.Notes or Limitations**<br /><br />
+**9.Notes or Limitations**<br /><br />
 	•	No backend authentication or user login implemented (yet)<br />
 	•	No real checkout or payment gateway integration<br />
 	•	UI is optimized for mobile only (not tested on tablets)<br />
